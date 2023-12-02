@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat App</title>
+</head>
+<body>
+    <h1>Chat App</h1>
+
+    <form method="post" action="{% url 'index' %}">
+        {% csrf_token %}
+        <label for="data_text">Ingrese texto:</label>
+        <textarea id="data_text" name="data_text"></textarea>
+        <button type="submit">Enviar</button>
+    </form>
+
+    {% if data_text %}
+        <h3>Texto de entrada:</h3>
+        <p>{{ data_text }}</p>
+    {% endif %}
+
+    {% if response_text %}
+        <h3>Respuesta del modelo:</h3>
+        <p>{{ response_text }}</p>
+    {% endif %}
+</body>
+</html>
