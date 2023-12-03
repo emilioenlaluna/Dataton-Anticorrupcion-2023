@@ -48,7 +48,7 @@ End Date: 2022-05-15"
 Data:
 {data_text}
 
-Image Description:
+Response: Only respond in Spanish language, for this reason translate answer to Spanish before to response
 
 
 """)
