@@ -25,8 +25,17 @@ SECRET_KEY = "django-insecure-bw^2kze0z=ak(!qf7hq2x^_p+86b2(*vwelilt*=3b4y^@e)gh
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
+
+
+CSRF_TRUSTED_ORIGINS =[
+    'https://emilioenlaluna-refactored-space-spork-qxqrwgv9x6529x79-8000.preview.app.github.dev/',
+    'https://*.preview.app.github.dev',
+    'https://*.azurewebsites.net',
+    'https://dataton2023.azurewebsites.net/',
+    'https://dataton2023.azurewebsites.net'
+]
 
 # Application definition
 
