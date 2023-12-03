@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 import os
 from langchain.llms import Replicate
@@ -63,7 +63,7 @@ else:
     )
     joblib.dump(llm, model_filename)
 
-def index(request):
+def chat(request):
     if request.method == 'POST':
         data_text = request.POST['data_text']
 
@@ -73,3 +73,58 @@ def index(request):
         return render(request, 'chat.html', {'data_text': data_text, 'response_text': response_text})
     else:
         return render(request, 'chat.html')
+    
+def index(request):
+        return render(request, 'landing.html')
+
+
+def seleccionar(request):
+    if request.method == 'POST':
+        system = request.POST.get('system', None)
+        if system:
+            if system == 'sistema1':
+                # Redirigir a la ruta correspondiente al Sistema 1
+                return redirect('chatbot_sistema1')
+            elif system == 'sistema2':
+                # Redirigir a la ruta correspondiente al Sistema 2
+                return redirect('chatbot_sistema3')
+            elif system == 'sistema3':
+                # Redirigir a la ruta correspondiente al Sistema 3
+                return redirect('chatbot_sistema3')
+    else:
+        return render(request, 'seleccionar.html')
+
+
+def chatbot_sistema1(request):
+        return render(request, 'chatbot_sistema1.html')
+
+def chatbot_sistema2(request):
+        return render(request, 'chatbot_sistema2.html')
+
+def chatbot_sistema3(request):
+        return render(request, 'chatbot_sistema3.html')
+
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+
+@csrf_exempt  # Desactivar la protección CSRF para simplificar el ejemplo. No recomendado para producción.
+def chatbot_api(request):
+    if request.method == 'POST':
+        try:
+            # Obtiene los datos JSON de la solicitud
+            data = json.loads(request.body)
+            user_message = data['message']
+
+            # Utilizar el modelo para obtener la respuesta
+            bot_response = llm(prompt.format(data_text=user_message))
+
+
+            # Devuelve la respuesta en formato JSON
+            return JsonResponse({'response': bot_response})
+
+        except json.JSONDecodeError as e:
+            return JsonResponse({'error': 'Error en el formato JSON'}, status=400)
+
+    return JsonResponse({'error': 'Método no permitido'}, status=405)

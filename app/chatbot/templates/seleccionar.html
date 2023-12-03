@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatBot Anticorrupción</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        header {
+            background-color: #1e6091;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1{
+            color: #ffffff;
+        }
+        h2{
+            color: #1e6091;
+        }
+
+        p {
+            line-height: 1.6;
+        }
+
+        button {
+            background-color: #1e6091;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #135273;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        select, option {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 16px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #1e6091;
+            color: #fff;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>ChatBot Anticorrupción</h1>
+    </header>
+
+    <section>
+        <div>
+            <h2>Bienvenido al ChatBot Anticorrupción</h2>
+            <p>
+                Nuestro chatbot está aquí para ayudarte a denunciar casos de corrupción de forma anónima y segura.
+                Si tienes información relevante, puedes proporcionarla a través del chat y ayudarnos a construir un entorno más transparente.
+            </p>
+            <button onclick="startChat()">Iniciar Chat</button>
+
+            <form id="systemForm" style="display:none;" method="post">
+                {% csrf_token %} 
+                <label for="system">Selecciona el sistema de chat que prefieres:</label>
+                <select id="system" name="system">
+                    <option value="sistema1">Sistema de evolución patrimonial, de declaración de intereses y
+                        constancia de presentación de declaración fiscal (Sistema 1).
+                        </option>
+                    <option value="sistema2">Sistema de los servidores públicos que intervienen en procedimientos de
+                        contrataciones públicas (Sistema 2).</option>
+                    <option value="sistema3">Sistema nacional de Servidores públicos y particulares sancionados
+                        (Sistema 3)</option>
+                </select>
+                <button type="submit">Iniciar Chat en el Sistema Seleccionado</button>
+            </form>
+        </div>
+        
+        <div>
+            <img src="https://th.bing.com/th/id/OIG.YdfU5M_8lLleDVeps3F.?pid=ImgGn" alt="Mascota de la Institución">
+        </div>
+    </section>
+
+    <footer>
+        &copy; 2023 ChatBot Anticorrupción
+    </footer>
+
+    <script>
+        function startChat() {
+            document.getElementById('systemForm').style.display = 'block';
+        }
+    </script>
+
+</body>
+</html>

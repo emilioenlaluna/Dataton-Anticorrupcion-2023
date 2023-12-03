@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatBot Anticorrupción - Sistema de Chat</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        header {
+            background-color: #1e6091;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .chat-container {
+            display: flex;
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        .messages {
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .user-message {
+            background-color: #1e6091;
+            color: #fff;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            max-width: 70%;
+        }
+
+        .bot-message {
+            background-color: #fff;
+            color: #333;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            max-width: 70%;
+            align-self: flex-end;
+        }
+
+        .input-container {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            background-color: #fff;
+            border-top: 1px solid #ccc;
+        }
+
+        input {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        button {
+            background-color: #1e6091;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #1e6091;
+            color: #fff;
+        }
+
+        
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #3498db;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin-right: 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>ChatBot Anticorrupción - Sistema de Chat</h1>
+    </header>
+
+    <div class="chat-container">
+        <div class="messages">
+            <!-- Aquí puedes insertar mensajes del chat, ya sean del usuario o del bot
+            
+
+                 <div class="user-message">Hola, quiero denunciar un caso de corrupción.</div>
+            -->
+           
+            <div class="bot-message">¡Hola! Claro, estoy aquí para ayudarte. Por favor, proporciona los detalles.</div>
+            <!-- Ejemplo de mensaje del usuario -->
+            <!-- <div class="user-message">Mi mensaje de usuario</div> -->
+            <!-- Ejemplo de mensaje del bot -->
+            <!-- <div class="bot-message">Respuesta del bot</div> -->
+            <div id="loader" class="loader" style="display:none;"></div>
+        </div>
+
+        <img src="https://th.bing.com/th/id/OIG.YdfU5M_8lLleDVeps3F.?pid=ImgGn" alt="Mascota de la Institución">
+
+    </div>
+
+    <div class="input-container">
+        <input type="text" id="userInput" placeholder="Escribe tu mensaje...">
+        <button onclick="sendMessage()">Enviar</button>
+        <div id="loader" class="loader" style="display:none;"></div>
+    </div>
+
+    <footer>
+        &copy; 2023 ChatBot Anticorrupción
+    </footer>
+
+     <!-- Scripts JavaScript -->
+     <script>
+         function sendMessage() {
+        var userInput = document.getElementById('userInput').value;
+        var loader = document.getElementById('loader');
+        
+        // Muestra el loader mientras se realiza la solicitud
+        loader.style.display = 'inline-block';
+
+        addUserMessage(userInput);
+        addBotMessage("Espera mientras se genera una respuesta");
+        // Configura los detalles de la solicitud
+        var requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                // Puedes agregar otros encabezados según tus necesidades
+            },
+            body: JSON.stringify({ message: userInput })
+        };
+
+        // Realiza la solicitud a la URL de tu vista en Django
+        fetch('/chatbot_api/', requestOptions)  // Ajusta la URL según tu configuración de URL
+            .then(response => response.json())
+            .then(data => {
+                // Oculta el loader
+                loader.style.display = 'none';
+
+                // Agrega la respuesta del bot al chat
+                addBotMessage(data.response);
+            })
+            .catch(error => {
+                console.error('Error al realizar la solicitud:', error);
+                // Puedes manejar el error según tus necesidades
+                loader.style.display = 'none';
+            });
+    }
+
+    function addBotMessage(message) {
+        var messagesContainer = document.querySelector('.messages');
+        var botMessageDiv = document.createElement('div');
+        botMessageDiv.className = 'bot-message';
+        botMessageDiv.innerHTML = message;
+        messagesContainer.appendChild(botMessageDiv);
+
+        // Hace scroll hasta el nuevo mensaje
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+
+    function addUserMessage(message) {
+        var messagesContainer = document.querySelector('.messages');
+        var userMessageDiv = document.createElement('div');
+        userMessageDiv.className = 'user-message';
+        userMessageDiv.innerHTML = message;
+        messagesContainer.appendChild(userMessageDiv);
+
+        // Hace scroll hasta el nuevo mensaje
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+    }
+    </script>
+</body>
+</html>
